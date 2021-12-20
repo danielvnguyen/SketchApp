@@ -12,7 +12,19 @@
         android:theme="@style/Theme.SketchApp"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.InfoScreen"
+            android:exported="false" />
+        <activity
+            android:name=".UI.GalleryScreen"
+            android:exported="false" />
+        <activity
+            android:name=".UI.SketchScreen"
+            android:exported="false" />
+        <activity
+            android:name=".UI.MainMenu"
+            android:exported="false" />
+        <activity
+            android:name=".UI.WelcomeScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
