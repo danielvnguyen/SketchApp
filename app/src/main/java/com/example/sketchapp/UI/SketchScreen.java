@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.sketchapp.Model.DrawView;
 import com.example.sketchapp.R;
 
 import java.util.Objects;
 
 public class SketchScreen extends AppCompatActivity {
+
+    private DrawView paint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
