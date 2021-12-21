@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SketchApp</string>
     <string name="by_daniel_nguyen">By Daniel Nguyen</string>
+    <string name="sketch">Sketch</string>
+    <string name="gallery">Gallery</string>
+    <string name="info">Info</string>
 </resources>
