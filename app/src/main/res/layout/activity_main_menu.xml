@@ -50,8 +50,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="400dp"
-        android:layout_height="200dp"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
         app:layout_constraintBottom_toTopOf="@+id/sketchBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"

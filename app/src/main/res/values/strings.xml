@@ -4,4 +4,8 @@
     <string name="sketch">Sketch</string>
     <string name="gallery">Gallery</string>
     <string name="info">Info</string>
+    <string name="undo">Undo</string>
+    <string name="save">Save</string>
+    <string name="colour">Colour</string>
+    <string name="stroke">Stroke</string>
 </resources>
