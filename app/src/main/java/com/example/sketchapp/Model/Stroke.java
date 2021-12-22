@@ -1,6 +1,5 @@
 package com.example.sketchapp.Model;
 
-
 import android.graphics.Path;
 
 /**

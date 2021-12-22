@@ -15,7 +15,9 @@ import java.util.ArrayList;
 /**
  * This class handles the display in the
  * SketchScreen activity for the user
- * to draw and interact with.
+ * to draw and interact with. Includes
+ * canvas functionality and handling
+ * touch events from the user.
  */
 public class DrawView extends View {
 
@@ -23,14 +25,14 @@ public class DrawView extends View {
     private float mX;
     private float mY;
     private Path mPath;
-    private Paint mPaint;
+    private final Paint mPaint;
 
-    private ArrayList<Stroke> paths = new ArrayList<>();
+    private final ArrayList<Stroke> paths = new ArrayList<>();
     private int currentColour;
     private int strokeWidth;
     private Bitmap mBitmap;
     private Canvas mCanvas;
-    private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+    private final Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
     public DrawView(Context context) {
         this(context, null);
@@ -121,8 +123,7 @@ public class DrawView extends View {
         return true;
     }
 
-    //Below is the functionality for the SketchScreen buttons
-
+    //Functionality for the SketchScreen buttons:
     public void setColour(int colour) {
         currentColour = colour;
     }

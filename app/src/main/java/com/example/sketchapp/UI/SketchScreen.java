@@ -1,6 +1,5 @@
 package com.example.sketchapp.UI;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,23 @@ import com.example.sketchapp.Model.DrawView;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
 import java.util.Objects;
+import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import java.io.OutputStream;
+import petrov.kristiyan.colorpicker.ColorPicker;
 
+/**
+ * This class handles the functionality and user
+ * interactivity of the main sketching screen
+ * of the application. Primarily includes button
+ * functionality (undo, save, etc.)
+ */
 public class SketchScreen extends AppCompatActivity {
 
     private DrawView paint;
@@ -41,6 +56,68 @@ public class SketchScreen extends AppCompatActivity {
 
     private void setUpButtons() {
         undoBtn.setOnClickListener(view -> paint.undo());
+
+        saveBtn.setOnClickListener(view -> {
+            Bitmap bmp = paint.save();
+            OutputStream imageOutStream;
+            ContentValues cv = new ContentValues();
+
+            cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
+            cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            }
+
+            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+            try {
+                imageOutStream = getContentResolver().openOutputStream(uri);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
+                imageOutStream.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        colourBtn.setOnClickListener(view -> {
+            final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
+            colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+                @Override
+                public void setOnFastChooseColorListener(int position, int color) {
+                    paint.setColour(color);
+                }
+                @Override
+                public void onCancel() {
+                    colorPicker.dismissDialog();
+                }
+            })
+                .setColumns(5)
+                .setDefaultColorButton(Color.parseColor(getString(R.string.black_colour)))
+                .show();
+        });
+
+        strokeBtn.setOnClickListener(view -> {
+            if (rangeSlider.getVisibility() == View.VISIBLE)
+                rangeSlider.setVisibility(View.GONE);
+            else
+                rangeSlider.setVisibility(View.VISIBLE);
+        });
+
+        rangeSlider.setValueFrom(0.0f);
+        rangeSlider.setValueTo(100.0f);
+        rangeSlider.addOnChangeListener((slider, value, fromUser) ->
+                paint.setStrokeWidth((int) value));
+
+        ViewTreeObserver vto = paint.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                paint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int width = paint.getMeasuredWidth();
+                int height = paint.getMeasuredHeight();
+                paint.setUpCanvas(height, width);
+            }
+        });
     }
 
     public static Intent makeIntent(Context context) {

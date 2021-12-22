@@ -8,4 +8,5 @@
     <string name="save">Save</string>
     <string name="colour">Colour</string>
     <string name="stroke">Stroke</string>
+    <string name="black_colour">#000000</string>
 </resources>

@@ -9,6 +9,10 @@ import android.widget.Button;
 
 import com.example.sketchapp.R;
 
+/**
+ * This class handles a simple welcome screen
+ * for SketchApp. Includes animations and skip button.
+ */
 public class WelcomeScreen extends AppCompatActivity {
 
     private Boolean screenEnded = false;

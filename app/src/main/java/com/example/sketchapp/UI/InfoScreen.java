@@ -11,6 +11,10 @@ import com.example.sketchapp.R;
 
 import java.util.Objects;
 
+/**
+ * This class handles displaying information
+ * about the developer and/or the application to the user.
+ */
 public class InfoScreen extends AppCompatActivity {
 
     @Override

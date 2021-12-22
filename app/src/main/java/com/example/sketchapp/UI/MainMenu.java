@@ -8,6 +8,10 @@ import android.widget.Button;
 
 import com.example.sketchapp.R;
 
+/**
+ * This class handles the main menu
+ * of the application, mainly the buttons.
+ */
 public class MainMenu extends AppCompatActivity {
 
     @Override
