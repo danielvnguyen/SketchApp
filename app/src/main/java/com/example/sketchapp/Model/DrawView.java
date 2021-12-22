@@ -76,6 +76,9 @@ public class DrawView extends View {
         canvas.restore();
     }
 
+//    public void changeBackground() {
+//    }
+
     private void touchStart(float x, float y) {
         mPath = new Path();
         Stroke currentPath = new Stroke(currentColour, strokeWidth, mPath);
@@ -130,6 +133,13 @@ public class DrawView extends View {
 
     public void setStrokeWidth(int width) {
         strokeWidth = width;
+    }
+
+    public void clearCanvas() {
+        if (paths.size() != 0) {
+            paths.clear();
+            invalidate();
+        }
     }
 
     public void undo() {

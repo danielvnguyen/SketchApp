@@ -26,9 +26,11 @@
             android:exported="false" />
         <activity
             android:name=".UI.MainMenu"
+            android:screenOrientation="locked"
             android:exported="false" />
         <activity
             android:name=".UI.WelcomeScreen"
+            android:screenOrientation="locked"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

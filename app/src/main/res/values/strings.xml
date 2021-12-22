@@ -9,4 +9,7 @@
     <string name="colour">Colour</string>
     <string name="stroke">Stroke</string>
     <string name="black_colour">#000000</string>
+    <string name="erase">Erase</string>
+    <string name="bucket">Paint Bucket</string>
+    <string name="clear">Clear Screen</string>
 </resources>

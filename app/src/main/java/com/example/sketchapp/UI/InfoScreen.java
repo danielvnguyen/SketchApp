@@ -22,7 +22,7 @@ public class InfoScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_screen);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setTitle("Info");
+        setTitle("About SketchApp");
     }
 
     public static Intent makeIntent(Context context) {

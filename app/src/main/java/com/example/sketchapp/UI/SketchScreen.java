@@ -35,6 +35,9 @@ public class SketchScreen extends AppCompatActivity {
     private ImageButton colourBtn;
     private ImageButton strokeBtn;
     private ImageButton undoBtn;
+    private ImageButton eraserBtn;
+    private ImageButton bucketBtn;
+    private ImageButton clearBtn;
     private RangeSlider rangeSlider;
 
     @Override
@@ -50,12 +53,19 @@ public class SketchScreen extends AppCompatActivity {
         saveBtn = findViewById(R.id.saveBtn);
         colourBtn = findViewById(R.id.colourBtn);
         strokeBtn = findViewById(R.id.strokeBtn);
+        eraserBtn = findViewById(R.id.eraserBtn);
+        bucketBtn = findViewById(R.id.bucketBtn);
+        clearBtn = findViewById(R.id.clearBtn);
 
         setUpButtons();
     }
 
     private void setUpButtons() {
         undoBtn.setOnClickListener(view -> paint.undo());
+
+        clearBtn.setOnClickListener(view -> paint.clearCanvas());
+
+        //bucketBtn.setOnClickListener(view -> paint.changeBackground());
 
         saveBtn.setOnClickListener(view -> {
             Bitmap bmp = paint.save();

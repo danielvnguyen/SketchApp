@@ -18,7 +18,7 @@ public class GalleryScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_screen);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setTitle("Gallery");
+        setTitle("Your Gallery");
     }
 
     public static Intent makeIntent(Context context) {
