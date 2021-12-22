@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * SketchScreen activity for the user
  * to draw and interact with.
  */
-public class DrawView extends View{
+public class DrawView extends View {
 
     private static final float TOUCH_TOLERANCE = 4;
     private float mX;
