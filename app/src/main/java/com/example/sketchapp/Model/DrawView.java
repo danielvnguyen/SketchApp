@@ -79,6 +79,12 @@ public class DrawView extends View {
 
     public void changeBackground(int colour) {
         backgroundColour = colour;
+        mCanvas.drawColor(backgroundColour);
+        for (Stroke currentPath: paths) {
+            mPaint.setColor(currentPath.colour);
+            mPaint.setStrokeWidth(currentPath.strokeWidth);
+            mCanvas.drawPath(currentPath.path, mPaint);
+        }
     }
 
     private void touchStart(float x, float y) {

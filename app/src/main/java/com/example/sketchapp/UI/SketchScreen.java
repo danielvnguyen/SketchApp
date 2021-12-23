@@ -42,6 +42,7 @@ public class SketchScreen extends AppCompatActivity {
     private ImageButton clearBtn;
     private RangeSlider rangeSlider;
     private int backgroundColour;
+    private int currentColour;
     private ArrayList<String> colorsHexList;
 
     @Override
@@ -78,6 +79,7 @@ public class SketchScreen extends AppCompatActivity {
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
         backgroundColour = Color.WHITE;
+        currentColour = Color.BLACK;
 
         setUpButtons();
     }
@@ -93,9 +95,9 @@ public class SketchScreen extends AppCompatActivity {
         final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
         colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
             @Override
-            public void setOnFastChooseColorListener(int position, int color) {
-                paint.changeBackground(color);
-                backgroundColour = color;
+            public void setOnFastChooseColorListener(int position, int colour) {
+                paint.changeBackground(colour);
+                backgroundColour = colour;
             }
             @Override
             public void onCancel() {
@@ -105,7 +107,6 @@ public class SketchScreen extends AppCompatActivity {
                 .setTitle("Choose a canvas colour")
                 .setColors(colorsHexList)
                 .setColumns(5)
-                .setDefaultColorButton(Color.WHITE)
                 .show();
         });
 
@@ -135,8 +136,9 @@ public class SketchScreen extends AppCompatActivity {
             final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
             colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
                 @Override
-                public void setOnFastChooseColorListener(int position, int color) {
-                    paint.setColour(color);
+                public void setOnFastChooseColorListener(int position, int colour) {
+                    paint.setColour(colour);
+                    currentColour = colour;
                 }
                 @Override
                 public void onCancel() {
@@ -146,11 +148,11 @@ public class SketchScreen extends AppCompatActivity {
                 .setTitle("Choose a colour to paint with")
                 .setColors(colorsHexList)
                 .setColumns(5)
-                .setDefaultColorButton(Color.BLACK)
                 .show();
         });
 
         strokeBtn.setOnClickListener(view -> {
+            paint.setColour(currentColour);
             if (rangeSlider.getVisibility() == View.VISIBLE)
                 rangeSlider.setVisibility(View.GONE);
             else
