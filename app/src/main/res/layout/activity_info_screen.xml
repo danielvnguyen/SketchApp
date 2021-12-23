@@ -1,8 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@color/blue"
     tools:context=".UI.InfoScreen">
+
+
+    <TextView
+        android:id="@+id/gameInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:alpha="0.9"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/about_app_info"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameInfoHeader" />
+
+    <TextView
+        android:id="@+id/gameInfoHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_bold"
+        android:paddingHorizontal="10dp"
+        android:text="@string/about_sketchapp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/creatorsHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_bold"
+        android:paddingHorizontal="10dp"
+        android:text="@string/about_me"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameInfo"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/resourcesInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:alpha="0.9"
+        android:autoLink="web"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/resource_links"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resourcesHeader" />
+
+    <TextView
+        android:id="@+id/resourcesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_bold"
+        android:paddingHorizontal="10dp"
+        android:text="@string/resources"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homePageLink"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/homePageLink"
+        android:alpha="0.9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/links"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creatorsInfo" />
+
+    <TextView
+        android:id="@+id/creatorsInfo"
+        android:alpha="0.9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@color/dark_gray"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/about_me_txt"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creatorsHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

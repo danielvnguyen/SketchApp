@@ -3,6 +3,7 @@ package com.example.sketchapp.UI;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
+
 import java.io.OutputStream;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -44,6 +47,7 @@ public class SketchScreen extends AppCompatActivity {
     private int backgroundColour;
     private int currentColour;
     private ArrayList<String> colorsHexList;
+    private MediaPlayer buttonSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,24 @@ public class SketchScreen extends AppCompatActivity {
         setTitle("You Are Sketching");
 
         colorsHexList = new ArrayList<>();
+        paint = findViewById(R.id.draw_view);
+        rangeSlider = findViewById(R.id.rangebar);
+        undoBtn = findViewById(R.id.undoBtn);
+        saveBtn = findViewById(R.id.saveBtn);
+        colourBtn = findViewById(R.id.colourBtn);
+        strokeBtn = findViewById(R.id.strokeBtn);
+        eraserBtn = findViewById(R.id.eraserBtn);
+        bucketBtn = findViewById(R.id.bucketBtn);
+        clearBtn = findViewById(R.id.clearBtn);
+        backgroundColour = Color.WHITE;
+        currentColour = Color.BLACK;
+
+        setUpColours();
+        setUpSounds();
+        setUpButtons();
+    }
+
+    private void setUpColours() {
         colorsHexList.add("#000000");
         colorsHexList.add("#FFFFFF");
         colorsHexList.add("#cc0000");
@@ -68,49 +90,52 @@ public class SketchScreen extends AppCompatActivity {
         colorsHexList.add("#B2AC88");
         colorsHexList.add("#D2B48C");
         colorsHexList.add("#a9a9a9");
+    }
 
-        paint = findViewById(R.id.draw_view);
-        rangeSlider = findViewById(R.id.rangebar);
-        undoBtn = findViewById(R.id.undoBtn);
-        saveBtn = findViewById(R.id.saveBtn);
-        colourBtn = findViewById(R.id.colourBtn);
-        strokeBtn = findViewById(R.id.strokeBtn);
-        eraserBtn = findViewById(R.id.eraserBtn);
-        bucketBtn = findViewById(R.id.bucketBtn);
-        clearBtn = findViewById(R.id.clearBtn);
-        backgroundColour = Color.WHITE;
-        currentColour = Color.BLACK;
-
-        setUpButtons();
+    private void setUpSounds() {
+        buttonSound = MediaPlayer.create(getApplicationContext(), R.raw.button_click);
     }
 
     private void setUpButtons() {
-        undoBtn.setOnClickListener(view -> paint.undo());
+        undoBtn.setOnClickListener(view -> {
+            paint.undo();
+            buttonSound.start();
+        });
 
-        clearBtn.setOnClickListener(view -> paint.clearCanvas());
+        clearBtn.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"Cleared the canvas", Toast.LENGTH_SHORT).show();
+            paint.clearCanvas();
+            buttonSound.start();
+        });
 
-        eraserBtn.setOnClickListener(view -> paint.setColour(backgroundColour));
+        eraserBtn.setOnClickListener(view -> {
+            paint.setColour(backgroundColour);
+            buttonSound.start();
+        });
 
         bucketBtn.setOnClickListener(view -> {
-        final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
-        colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
-            @Override
-            public void setOnFastChooseColorListener(int position, int colour) {
-                paint.changeBackground(colour);
-                backgroundColour = colour;
-            }
-            @Override
-            public void onCancel() {
-                colorPicker.dismissDialog();
-            }
+            buttonSound.start();
+            final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
+            colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+                @Override
+                public void setOnFastChooseColorListener(int position, int colour) {
+                    paint.changeBackground(colour);
+                    backgroundColour = colour;
+                }
+                @Override
+                public void onCancel() {
+                    colorPicker.dismissDialog();
+                }
             })
-                .setTitle("Choose a canvas colour")
-                .setColors(colorsHexList)
-                .setColumns(5)
-                .show();
+            .setTitle("Choose a canvas colour")
+            .setColors(colorsHexList)
+            .setColumns(5)
+            .show();
         });
 
         saveBtn.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
+            buttonSound.start();
             Bitmap bmp = paint.save();
             OutputStream imageOutStream;
             ContentValues cv = new ContentValues();
@@ -133,6 +158,7 @@ public class SketchScreen extends AppCompatActivity {
         });
 
         colourBtn.setOnClickListener(view -> {
+            buttonSound.start();
             final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
             colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
                 @Override
@@ -152,6 +178,7 @@ public class SketchScreen extends AppCompatActivity {
         });
 
         strokeBtn.setOnClickListener(view -> {
+            buttonSound.start();
             paint.setColour(currentColour);
             if (rangeSlider.getVisibility() == View.VISIBLE)
                 rangeSlider.setVisibility(View.GONE);
