@@ -33,6 +33,7 @@ public class DrawView extends View {
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private final Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+    private int backgroundColour;
 
     public DrawView(Context context) {
         this(context, null);
@@ -45,18 +46,19 @@ public class DrawView extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.GREEN);
+        mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setAlpha(0xff);
+        backgroundColour = Color.WHITE;
     }
 
     public void setUpCanvas(int height, int width) {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
         //Default values
-        currentColour = Color.GREEN;
+        currentColour = Color.BLACK;
         strokeWidth = 20;
     }
 
@@ -64,7 +66,6 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.save();
 
-        int backgroundColour = Color.WHITE;
         mCanvas.drawColor(backgroundColour);
 
         for (Stroke currentPath: paths) {
@@ -76,8 +77,9 @@ public class DrawView extends View {
         canvas.restore();
     }
 
-//    public void changeBackground() {
-//    }
+    public void changeBackground(int colour) {
+        backgroundColour = colour;
+    }
 
     private void touchStart(float x, float y) {
         mPath = new Path();

@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import com.example.sketchapp.Model.DrawView;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
+
+import java.util.ArrayList;
 import java.util.Objects;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
@@ -39,6 +41,8 @@ public class SketchScreen extends AppCompatActivity {
     private ImageButton bucketBtn;
     private ImageButton clearBtn;
     private RangeSlider rangeSlider;
+    private int backgroundColour;
+    private ArrayList<String> colorsHexList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,23 @@ public class SketchScreen extends AppCompatActivity {
         setContentView(R.layout.activity_sketch_screen);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("You Are Sketching");
+
+        colorsHexList = new ArrayList<>();
+        colorsHexList.add("#000000");
+        colorsHexList.add("#FFFFFF");
+        colorsHexList.add("#cc0000");
+        colorsHexList.add("#FFA500");
+        colorsHexList.add("#FFFF00");
+        colorsHexList.add("#00FF00");
+        colorsHexList.add("#0000FF");
+        colorsHexList.add("#FFC0CB");
+        colorsHexList.add("#7F00FF");
+        colorsHexList.add("#964B00");
+        colorsHexList.add("#808080");
+        colorsHexList.add("#30D5C8");
+        colorsHexList.add("#B2AC88");
+        colorsHexList.add("#D2B48C");
+        colorsHexList.add("#a9a9a9");
 
         paint = findViewById(R.id.draw_view);
         rangeSlider = findViewById(R.id.rangebar);
@@ -56,6 +77,7 @@ public class SketchScreen extends AppCompatActivity {
         eraserBtn = findViewById(R.id.eraserBtn);
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
+        backgroundColour = Color.WHITE;
 
         setUpButtons();
     }
@@ -65,7 +87,27 @@ public class SketchScreen extends AppCompatActivity {
 
         clearBtn.setOnClickListener(view -> paint.clearCanvas());
 
-        //bucketBtn.setOnClickListener(view -> paint.changeBackground());
+        eraserBtn.setOnClickListener(view -> paint.setColour(backgroundColour));
+
+        bucketBtn.setOnClickListener(view -> {
+        final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
+        colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+            @Override
+            public void setOnFastChooseColorListener(int position, int color) {
+                paint.changeBackground(color);
+                backgroundColour = color;
+            }
+            @Override
+            public void onCancel() {
+                colorPicker.dismissDialog();
+            }
+            })
+                .setTitle("Choose a canvas colour")
+                .setColors(colorsHexList)
+                .setColumns(5)
+                .setDefaultColorButton(Color.WHITE)
+                .show();
+        });
 
         saveBtn.setOnClickListener(view -> {
             Bitmap bmp = paint.save();
@@ -101,8 +143,10 @@ public class SketchScreen extends AppCompatActivity {
                     colorPicker.dismissDialog();
                 }
             })
+                .setTitle("Choose a colour to paint with")
+                .setColors(colorsHexList)
                 .setColumns(5)
-                .setDefaultColorButton(Color.parseColor(getString(R.string.black_colour)))
+                .setDefaultColorButton(Color.BLACK)
                 .show();
         });
 
