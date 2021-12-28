@@ -20,7 +20,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
@@ -43,6 +42,7 @@ public class SketchScreen extends AppCompatActivity {
     private ImageButton eraserBtn;
     private ImageButton bucketBtn;
     private ImageButton clearBtn;
+    private ImageButton redoBtn;
     private RangeSlider rangeSlider;
     private int backgroundColour;
     private int currentColour;
@@ -66,6 +66,7 @@ public class SketchScreen extends AppCompatActivity {
         eraserBtn = findViewById(R.id.eraserBtn);
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
+        redoBtn = findViewById(R.id.redoBtn);
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
 
@@ -93,10 +94,14 @@ public class SketchScreen extends AppCompatActivity {
     }
 
     private void setUpSounds() {
-        buttonSound = MediaPlayer.create(getApplicationContext(), R.raw.button_click);
+        buttonSound = MediaPlayer.create(getApplicationContext(), R.raw.click_sound);
     }
 
     private void setUpButtons() {
+        redoBtn.setOnClickListener(view -> {
+            buttonSound.start();
+        });
+
         undoBtn.setOnClickListener(view -> {
             paint.undo();
             buttonSound.start();
@@ -182,10 +187,6 @@ public class SketchScreen extends AppCompatActivity {
             paint.setEraser(false);
             buttonSound.start();
             paint.setColour(currentColour);
-            if (rangeSlider.getVisibility() == View.VISIBLE)
-                rangeSlider.setVisibility(View.GONE);
-            else
-                rangeSlider.setVisibility(View.VISIBLE);
         });
 
         rangeSlider.setValueFrom(0.0f);

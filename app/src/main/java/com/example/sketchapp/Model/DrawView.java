@@ -59,7 +59,6 @@ public class DrawView extends View {
     public void setUpCanvas(int height, int width) {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
-        //Default values
         currentColour = Color.BLACK;
         strokeWidth = 20;
     }

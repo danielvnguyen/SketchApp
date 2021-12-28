@@ -93,11 +93,10 @@
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/rangebar"
-        android:layout_width="wrap_content"
+        android:layout_width="410.5dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/strokeBtn"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck"
         tools:visibility="visible" />
