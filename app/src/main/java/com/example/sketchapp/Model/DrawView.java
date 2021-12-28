@@ -28,14 +28,13 @@ public class DrawView extends View {
     private final Paint mPaint;
 
     private final ArrayList<Stroke> paths = new ArrayList<>();
+    private ArrayList<Stroke> undonePaths = new ArrayList<>();
     private int currentColour;
     private int strokeWidth;
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private final Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     private int backgroundColour;
-
-    private final ArrayList<Stroke> erasePaths = new ArrayList<>();
     private boolean isEraser = false;
 
     public DrawView(Context context) {
@@ -100,6 +99,7 @@ public class DrawView extends View {
     }
 
     private void touchStart(float x, float y) {
+        undonePaths.clear();
         mPath = new Path();
 
         Stroke currentPath;
@@ -164,23 +164,23 @@ public class DrawView extends View {
         if (paths.size() != 0) {
             paths.clear();
         }
-        if (erasePaths.size() != 0) {
-            erasePaths.clear();
-        }
+
         invalidate();
     }
 
     public void undo() {
-        if (isEraser) {
-            if (erasePaths.size() != 0) {
-                erasePaths.remove(erasePaths.size() - 1);
-            }
+        if (paths.size() != 0) {
+            undonePaths.add(paths.remove(paths.size() - 1));
         }
-        else {
-            if (paths.size() != 0) {
-                paths.remove(paths.size() - 1);
-            }
+
+        invalidate();
+    }
+
+    public void redo() {
+        if (undonePaths.size() > 0) {
+            paths.add(undonePaths.remove(undonePaths.size()-1));
         }
+
         invalidate();
     }
 

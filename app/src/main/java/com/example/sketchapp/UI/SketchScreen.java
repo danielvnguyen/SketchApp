@@ -105,6 +105,7 @@ public class SketchScreen extends AppCompatActivity {
 
     private void setUpButtons() {
         redoBtn.setOnClickListener(view -> {
+            paint.redo();
             buttonSound.start();
         });
 
