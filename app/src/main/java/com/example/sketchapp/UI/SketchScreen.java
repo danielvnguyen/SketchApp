@@ -127,6 +127,7 @@ public class SketchScreen extends AppCompatActivity {
 
         hideBtn.setOnClickListener(view -> {
             if (!toolsHidden) {
+                hideBtn.setText(R.string.show);
                 toolsHidden = true;
                 redoBtn.setVisibility(View.GONE);
                 undoBtn.setVisibility(View.GONE);
@@ -139,6 +140,7 @@ public class SketchScreen extends AppCompatActivity {
                 rangeSlider.setVisibility(View.GONE);
             }
             else {
+                hideBtn.setText(R.string.hide);
                 toolsHidden = false;
                 redoBtn.setVisibility(View.VISIBLE);
                 undoBtn.setVisibility(View.VISIBLE);

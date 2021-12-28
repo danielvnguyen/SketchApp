@@ -114,7 +114,7 @@
 
     <Button
         android:id="@+id/hide_btn"
-        android:layout_width="64dp"
+        android:layout_width="67.62dp"
         android:layout_height="35dp"
         android:fontFamily="@font/raleway_medium"
         android:text="@string/hide"

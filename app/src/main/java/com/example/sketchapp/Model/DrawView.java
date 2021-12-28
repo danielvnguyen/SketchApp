@@ -70,12 +70,12 @@ public class DrawView extends View {
         mCanvas.drawColor(backgroundColour);
 
         for (Stroke currentPath: paths) {
-            mPaint.setColor(currentPath.colour);
-            mPaint.setStrokeWidth(currentPath.strokeWidth);
-            mCanvas.drawPath(currentPath.path, mPaint);
-        }
-        for (Stroke currentPath: erasePaths) {
-            mPaint.setColor(backgroundColour);
+            if (currentPath.isErasePath) {
+                mPaint.setColor(backgroundColour);
+            }
+            else {
+                mPaint.setColor(currentPath.colour);
+            }
             mPaint.setStrokeWidth(currentPath.strokeWidth);
             mCanvas.drawPath(currentPath.path, mPaint);
         }
@@ -88,12 +88,12 @@ public class DrawView extends View {
         backgroundColour = colour;
         mCanvas.drawColor(backgroundColour);
         for (Stroke currentPath: paths) {
-            mPaint.setColor(currentPath.colour);
-            mPaint.setStrokeWidth(currentPath.strokeWidth);
-            mCanvas.drawPath(currentPath.path, mPaint);
-        }
-        for (Stroke currentPath: erasePaths) {
-            mPaint.setColor(backgroundColour);
+            if (currentPath.isErasePath) {
+                mPaint.setColor(backgroundColour);
+            }
+            else {
+                mPaint.setColor(currentPath.colour);
+            }
             mPaint.setStrokeWidth(currentPath.strokeWidth);
             mCanvas.drawPath(currentPath.path, mPaint);
         }
@@ -101,14 +101,15 @@ public class DrawView extends View {
 
     private void touchStart(float x, float y) {
         mPath = new Path();
+
+        Stroke currentPath;
         if (isEraser) {
-            Stroke currentPath = new Stroke(backgroundColour, strokeWidth, mPath);
-            erasePaths.add(currentPath);
+            currentPath = new Stroke(backgroundColour, strokeWidth, mPath, true);
         }
         else {
-            Stroke currentPath = new Stroke(currentColour, strokeWidth, mPath);
-            paths.add(currentPath);
+            currentPath = new Stroke(currentColour, strokeWidth, mPath, false);
         }
+        paths.add(currentPath);
 
         mPath.reset();
         mPath.moveTo(x,y);
@@ -162,15 +163,25 @@ public class DrawView extends View {
     public void clearCanvas() {
         if (paths.size() != 0) {
             paths.clear();
-            invalidate();
         }
+        if (erasePaths.size() != 0) {
+            erasePaths.clear();
+        }
+        invalidate();
     }
 
     public void undo() {
-        if (paths.size() != 0) {
-            paths.remove(paths.size() - 1);
-            invalidate();
+        if (isEraser) {
+            if (erasePaths.size() != 0) {
+                erasePaths.remove(erasePaths.size() - 1);
+            }
         }
+        else {
+            if (paths.size() != 0) {
+                paths.remove(paths.size() - 1);
+            }
+        }
+        invalidate();
     }
 
     public Bitmap save() {

@@ -11,10 +11,13 @@ public class Stroke {
     public int colour;
     public int strokeWidth;
     public Path path;
+    public boolean isErasePath;
 
-    public Stroke(int colour, int width, Path path) {
+    public Stroke(int colour, int width, Path path, boolean erase) {
         this.colour = colour;
         this.strokeWidth = width;
         this.path = path;
+        this.isErasePath = erase;
     }
+
 }
