@@ -8,6 +8,17 @@
     tools:context=".UI.SketchScreen">
 
 
+    <com.example.sketchapp.Model.DrawView
+        android:id="@+id/draw_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/rangebar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ImageButton
         android:id="@+id/undoBtn"
         android:layout_width="50dp"
@@ -101,13 +112,16 @@
         tools:ignore="SpeakableTextPresentCheck"
         tools:visibility="visible" />
 
-    <com.example.sketchapp.Model.DrawView
-        android:id="@+id/draw_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/rangebar"
+    <Button
+        android:id="@+id/hide_btn"
+        android:layout_width="64dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/hide"
+        android:textAllCaps="false"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

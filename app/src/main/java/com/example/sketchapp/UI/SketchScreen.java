@@ -7,11 +7,12 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import com.example.sketchapp.Model.DrawView;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import android.content.ContentValues;
@@ -22,7 +23,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
-
 import java.io.OutputStream;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -49,6 +49,9 @@ public class SketchScreen extends AppCompatActivity {
     private ArrayList<String> colorsHexList;
     private MediaPlayer buttonSound;
 
+    private Button hideBtn;
+    private boolean toolsHidden = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class SketchScreen extends AppCompatActivity {
 
         colorsHexList = new ArrayList<>();
         paint = findViewById(R.id.draw_view);
+        hideBtn = findViewById(R.id.hide_btn);
+
         rangeSlider = findViewById(R.id.rangebar);
         undoBtn = findViewById(R.id.undoBtn);
         saveBtn = findViewById(R.id.saveBtn);
@@ -67,6 +72,7 @@ public class SketchScreen extends AppCompatActivity {
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
         redoBtn = findViewById(R.id.redoBtn);
+
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
 
@@ -117,6 +123,33 @@ public class SketchScreen extends AppCompatActivity {
             paint.setEraser(true);
             paint.setColour(backgroundColour);
             buttonSound.start();
+        });
+
+        hideBtn.setOnClickListener(view -> {
+            if (!toolsHidden) {
+                toolsHidden = true;
+                redoBtn.setVisibility(View.GONE);
+                undoBtn.setVisibility(View.GONE);
+                saveBtn.setVisibility(View.GONE);
+                colourBtn.setVisibility(View.GONE);
+                strokeBtn.setVisibility(View.GONE);
+                eraserBtn.setVisibility(View.GONE);
+                bucketBtn.setVisibility(View.GONE);
+                clearBtn.setVisibility(View.GONE);
+                rangeSlider.setVisibility(View.GONE);
+            }
+            else {
+                toolsHidden = false;
+                redoBtn.setVisibility(View.VISIBLE);
+                undoBtn.setVisibility(View.VISIBLE);
+                saveBtn.setVisibility(View.VISIBLE);
+                colourBtn.setVisibility(View.VISIBLE);
+                strokeBtn.setVisibility(View.VISIBLE);
+                eraserBtn.setVisibility(View.VISIBLE);
+                bucketBtn.setVisibility(View.VISIBLE);
+                clearBtn.setVisibility(View.VISIBLE);
+                rangeSlider.setVisibility(View.VISIBLE);
+            }
         });
 
         bucketBtn.setOnClickListener(view -> {
