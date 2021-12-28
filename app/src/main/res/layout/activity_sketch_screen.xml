@@ -99,22 +99,8 @@
         app:layout_constraintBottom_toTopOf="@+id/strokeBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/eraseBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/strokeBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:thumbColor="@color/purple_200"
-        app:trackColorActive="@color/purple_200"
-        app:trackColorInactive="@color/purple_200"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:visibility="visible" />
 
     <com.example.sketchapp.Model.DrawView
         android:id="@+id/draw_view"

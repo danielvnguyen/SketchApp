@@ -43,13 +43,11 @@ public class SketchScreen extends AppCompatActivity {
     private ImageButton eraserBtn;
     private ImageButton bucketBtn;
     private ImageButton clearBtn;
-    private ImageButton redoBtn;
     private RangeSlider rangeSlider;
     private int backgroundColour;
     private int currentColour;
     private ArrayList<String> colorsHexList;
     private MediaPlayer buttonSound;
-    private RangeSlider eraseSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,6 @@ public class SketchScreen extends AppCompatActivity {
         colorsHexList = new ArrayList<>();
         paint = findViewById(R.id.draw_view);
         rangeSlider = findViewById(R.id.rangebar);
-        eraseSlider = findViewById(R.id.eraseBar);
         undoBtn = findViewById(R.id.undoBtn);
         saveBtn = findViewById(R.id.saveBtn);
         colourBtn = findViewById(R.id.colourBtn);
@@ -69,7 +66,6 @@ public class SketchScreen extends AppCompatActivity {
         eraserBtn = findViewById(R.id.eraserBtn);
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
-        redoBtn = findViewById(R.id.redoBtn);
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
 
@@ -97,31 +93,10 @@ public class SketchScreen extends AppCompatActivity {
     }
 
     private void setUpSounds() {
-        buttonSound = MediaPlayer.create(getApplicationContext(), R.raw.click_sound);
+        buttonSound = MediaPlayer.create(getApplicationContext(), R.raw.button_click);
     }
 
     private void setUpButtons() {
-        eraserBtn.setOnClickListener(view -> {
-            buttonSound.start();
-            paint.setErase(true);
-            paint.setColour(getResources().getColor(android.R.color.transparent));
-            paint.eraseClicked();
-
-//            if (eraseSlider.getVisibility() == View.VISIBLE)
-//                eraseSlider.setVisibility(View.GONE);
-//            else {
-//                if (rangeSlider.getVisibility() == View.VISIBLE) {
-//                    rangeSlider.setVisibility(View.GONE);
-//                }
-//                eraseSlider.setVisibility(View.VISIBLE);
-//            }
-
-        });
-
-        redoBtn.setOnClickListener(view -> {
-            buttonSound.start();
-        });
-
         undoBtn.setOnClickListener(view -> {
             paint.undo();
             buttonSound.start();
@@ -130,6 +105,12 @@ public class SketchScreen extends AppCompatActivity {
         clearBtn.setOnClickListener(view -> {
             Toast.makeText(getApplicationContext(),"Cleared the canvas", Toast.LENGTH_SHORT).show();
             paint.clearCanvas();
+            buttonSound.start();
+        });
+
+        eraserBtn.setOnClickListener(view -> {
+            paint.setEraser(true);
+            paint.setColour(backgroundColour);
             buttonSound.start();
         });
 
@@ -198,30 +179,19 @@ public class SketchScreen extends AppCompatActivity {
         });
 
         strokeBtn.setOnClickListener(view -> {
+            paint.setEraser(false);
             buttonSound.start();
-            paint.setErase(false);
             paint.setColour(currentColour);
-            paint.strokeClicked();
-
             if (rangeSlider.getVisibility() == View.VISIBLE)
                 rangeSlider.setVisibility(View.GONE);
-            else {
-                if (eraseSlider.getVisibility() == View.VISIBLE) {
-                    eraseSlider.setVisibility(View.GONE);
-                }
+            else
                 rangeSlider.setVisibility(View.VISIBLE);
-            }
         });
 
         rangeSlider.setValueFrom(0.0f);
         rangeSlider.setValueTo(100.0f);
         rangeSlider.addOnChangeListener((slider, value, fromUser) ->
                 paint.setStrokeWidth((int) value));
-
-        eraseSlider.setValueFrom(0.0f);
-        eraseSlider.setValueTo(100.0f);
-//        eraseSlider.addOnChangeListener((slider, value, fromUser) ->
-//                paint.setEraserWidth((int) value));
 
         ViewTreeObserver vto = paint.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
