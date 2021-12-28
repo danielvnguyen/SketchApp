@@ -7,9 +7,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import com.example.sketchapp.R;
 import java.util.ArrayList;
 
 /**
@@ -34,9 +38,13 @@ public class DrawView extends View {
     private Canvas mCanvas;
     private final Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     private int backgroundColour;
+    private MediaPlayer drawingSound;
+
+    boolean eraserOn = false;
 
     public DrawView(Context context) {
         this(context, null);
+        drawingSound = MediaPlayer.create(context, R.raw.pen_sound);
     }
 
     public DrawView(Context context, AttributeSet attributes) {
@@ -51,7 +59,17 @@ public class DrawView extends View {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setAlpha(0xff);
+
         backgroundColour = Color.WHITE;
+        drawingSound = MediaPlayer.create(context, R.raw.pen_sound);
+    }
+
+    public void eraseClicked() {
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+    }
+
+    public void strokeClicked() {
+        mPaint.setXfermode(null);
     }
 
     public void setUpCanvas(int height, int width) {
@@ -73,6 +91,7 @@ public class DrawView extends View {
             mPaint.setStrokeWidth(currentPath.strokeWidth);
             mCanvas.drawPath(currentPath.path, mPaint);
         }
+
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.restore();
     }
@@ -121,20 +140,32 @@ public class DrawView extends View {
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             touchStart(x, y);
-            invalidate();
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            touchMove(x, y);
-            invalidate();
+            //drawingSound.start();
+            if (eraserOn) {
+                mPath.lineTo(x, y);
+                mCanvas.drawPath(mPath, mPaint);
+                mPath.reset();
+                mPath.moveTo(x,y);
+            }
+            else {
+                touchMove(x, y);
+            }
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) {
             touchUp();
-            invalidate();
         }
+
+        invalidate();
         return true;
     }
 
     //Functionality for the SketchScreen buttons:
+    public void setErase(boolean eraseValue) {
+        eraserOn = eraseValue;
+    }
+
     public void setColour(int colour) {
         currentColour = colour;
     }

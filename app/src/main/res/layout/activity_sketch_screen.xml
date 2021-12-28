@@ -9,28 +9,8 @@
 
 
     <ImageButton
-        android:id="@+id/strokeBtn"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/paintbrush"
-        android:text="@string/stroke"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/colourBtn"
-        tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/colourBtn"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/btn_colour"
-        android:text="@string/colour"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/undoBtn"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-    <ImageButton
         android:id="@+id/undoBtn"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:src="@drawable/undo_arrow"
         android:text="@string/undo"
@@ -49,19 +29,10 @@
         tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
     <ImageButton
-        android:id="@+id/eraserBtn"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/eraser_tool"
-        android:text="@string/erase"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/strokeBtn"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
-
-    <ImageButton
         android:id="@+id/bucketBtn"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:src="@drawable/paint_tool"
         android:text="@string/bucket"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,13 +40,55 @@
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <ImageButton
+        android:id="@+id/eraserBtn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/eraser_tool"
+        android:text="@string/erase"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/strokeBtn"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/strokeBtn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/paintbrush"
+        android:text="@string/stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/colourBtn"
+        tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/colourBtn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_colour"
+        android:text="@string/colour"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/redoBtn"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
         android:id="@+id/clearBtn"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:src="@drawable/clear_btn"
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bucketBtn"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/redoBtn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/redo_arrow"
+        android:text="@string/redo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/undoBtn"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <com.google.android.material.slider.RangeSlider
@@ -86,8 +99,22 @@
         app:layout_constraintBottom_toTopOf="@+id/strokeBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:visibility="visible" />
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/eraseBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/strokeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:thumbColor="@color/purple_200"
+        app:trackColorActive="@color/purple_200"
+        app:trackColorInactive="@color/purple_200"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <com.example.sketchapp.Model.DrawView
         android:id="@+id/draw_view"
