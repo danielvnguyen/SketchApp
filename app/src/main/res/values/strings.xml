@@ -34,4 +34,5 @@
     <string name="redo">Redo</string>
     <string name="hide">Hide</string>
     <string name="show">Show</string>
+    <string name="date_and_time">Date and time</string>
 </resources>

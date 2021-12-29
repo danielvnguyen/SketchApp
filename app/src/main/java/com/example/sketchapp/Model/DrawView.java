@@ -28,7 +28,7 @@ public class DrawView extends View {
     private final Paint mPaint;
 
     private final ArrayList<Stroke> paths = new ArrayList<>();
-    private ArrayList<Stroke> undonePaths = new ArrayList<>();
+    private final ArrayList<Stroke> undonePaths = new ArrayList<>();
     private int currentColour;
     private int strokeWidth;
     private Bitmap mBitmap;

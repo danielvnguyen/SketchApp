@@ -1,5 +1,6 @@
 package com.example.sketchapp.UI;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import com.example.sketchapp.Model.DrawView;
+import com.example.sketchapp.Model.Drawing;
+import com.example.sketchapp.Model.DrawingManager;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import android.content.ContentValues;
@@ -52,12 +58,16 @@ public class SketchScreen extends AppCompatActivity {
     private Button hideBtn;
     private boolean toolsHidden = false;
 
+    private DrawingManager drawingManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sketch_screen);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("You Are Sketching");
+
+        drawingManager = DrawingManager.getInstance(this);
 
         colorsHexList = new ArrayList<>();
         paint = findViewById(R.id.draw_view);
@@ -175,28 +185,36 @@ public class SketchScreen extends AppCompatActivity {
             .show();
         });
 
+//        saveBtn.setOnClickListener(view -> {
+//            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
+//            buttonSound.start();
+//            Bitmap bmp = paint.save();
+//            OutputStream imageOutStream;
+//            ContentValues cv = new ContentValues();
+//
+//            cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
+//            cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+//            }
+//
+//            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+//            try {
+//                imageOutStream = getContentResolver().openOutputStream(uri);
+//                bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
+//                imageOutStream.close();
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+
         saveBtn.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Drawing saved to Gallery!", Toast.LENGTH_SHORT).show();
             buttonSound.start();
             Bitmap bmp = paint.save();
-            OutputStream imageOutStream;
-            ContentValues cv = new ContentValues();
-
-            cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
-            cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-            }
-
-            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
-            try {
-                imageOutStream = getContentResolver().openOutputStream(uri);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
-                imageOutStream.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            Drawing newDrawing = new Drawing(bmp, getCreationTime());
+            drawingManager.addDrawing(this, newDrawing);
         });
 
         colourBtn.setOnClickListener(view -> {
@@ -240,6 +258,14 @@ public class SketchScreen extends AppCompatActivity {
                 paint.setUpCanvas(height, width);
             }
         });
+    }
+
+    private String getCreationTime() {
+        LocalDateTime startTime;
+        startTime = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("LLL dd @ h:mma");
+        return formatter.format(startTime);
     }
 
     public static Intent makeIntent(Context context) {
