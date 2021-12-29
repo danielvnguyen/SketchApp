@@ -34,5 +34,5 @@
     <string name="redo">Redo</string>
     <string name="hide">Hide</string>
     <string name="show">Show</string>
-    <string name="choose_width_height">Choose width and height \n<br/>(or leave them blank)</string>
+    <string name="choose_width_height">Set Canvas Width/Height: \n<br/>(Or Leave Them Blank)</string>
 </resources>

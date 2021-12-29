@@ -18,7 +18,6 @@ import com.example.sketchapp.Model.DrawView;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -46,15 +45,12 @@ public class SketchScreen extends AppCompatActivity {
     private RangeSlider rangeSlider;
     private int backgroundColour;
     private int currentColour;
-    private ArrayList<String> colorsHexList;
     private MediaPlayer buttonSound;
     private Button hideBtn;
     private boolean toolsHidden = false;
     private int widthValue;
     private int heightValue;
     private boolean isExtras;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +59,8 @@ public class SketchScreen extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("You Are Sketching");
 
-        colorsHexList = new ArrayList<>();
         paint = findViewById(R.id.draw_view);
         hideBtn = findViewById(R.id.hide_btn);
-
         rangeSlider = findViewById(R.id.rangebar);
         undoBtn = findViewById(R.id.undoBtn);
         saveBtn = findViewById(R.id.saveBtn);
@@ -81,7 +75,6 @@ public class SketchScreen extends AppCompatActivity {
         currentColour = Color.BLACK;
 
         getDimensionValues();
-        setUpColours();
         setUpSounds();
         setUpButtons();
     }
@@ -93,24 +86,6 @@ public class SketchScreen extends AppCompatActivity {
             widthValue = extras.getInt("width");
             heightValue = extras.getInt("height");
         }
-    }
-
-    private void setUpColours() {
-        colorsHexList.add("#000000");
-        colorsHexList.add("#FFFFFF");
-        colorsHexList.add("#cc0000");
-        colorsHexList.add("#FFA500");
-        colorsHexList.add("#FFFF00");
-        colorsHexList.add("#00FF00");
-        colorsHexList.add("#0000FF");
-        colorsHexList.add("#FFC0CB");
-        colorsHexList.add("#7F00FF");
-        colorsHexList.add("#964B00");
-        colorsHexList.add("#808080");
-        colorsHexList.add("#30D5C8");
-        colorsHexList.add("#B2AC88");
-        colorsHexList.add("#D2B48C");
-        colorsHexList.add("#a9a9a9");
     }
 
     private void setUpSounds() {
@@ -182,6 +157,7 @@ public class SketchScreen extends AppCompatActivity {
                 .show(view, new ColorPickerPopup.ColorPickerObserver() {
                     @Override
                     public void onColorPicked(int colour) {
+                        Toast.makeText(getApplicationContext(),"Canvas colour changed!", Toast.LENGTH_SHORT).show();
                         paint.changeBackground(colour);
                         backgroundColour = colour;
                 }
@@ -225,6 +201,7 @@ public class SketchScreen extends AppCompatActivity {
                 .show(view, new ColorPickerPopup.ColorPickerObserver() {
                     @Override
                     public void onColorPicked(int colour) {
+                        Toast.makeText(getApplicationContext(),"Drawing colour changed!", Toast.LENGTH_SHORT).show();
                         paint.setColour(colour);
                         currentColour = colour;
                 }
