@@ -20,10 +20,6 @@
             android:screenOrientation="locked"
             android:exported="false" />
         <activity
-            android:name=".UI.GalleryScreen"
-            android:screenOrientation="locked"
-            android:exported="false" />
-        <activity
             android:name=".UI.SketchScreen"
             android:screenOrientation="locked"
             android:exported="false" />

@@ -24,11 +24,16 @@ public class WelcomeScreen extends AppCompatActivity {
         if (getSupportActionBar() != null) getSupportActionBar().hide();
 
         setUpSkipBtn();
+        setUpAnimation();
 
         fadeIn(findViewById(R.id.welcome_screen_title));
         fadeIn(findViewById(R.id.welcome_screen_author));
         Handler loadingHandler = new Handler();
         loadingHandler.postDelayed(this::startMainMenu, 4000);
+    }
+
+    private void setUpAnimation() {
+
     }
 
     private void setUpSkipBtn() {

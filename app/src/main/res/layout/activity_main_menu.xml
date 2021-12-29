@@ -23,30 +23,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/galleryBtn"
-        android:layout_width="250dp"
-        android:layout_height="120dp"
-        android:backgroundTint="@color/dark_gray"
-        android:fontFamily="@font/raleway_bold"
-        android:text="@string/gallery"
-        android:textAllCaps="false"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sketchBtn" />
-
-    <Button
         android:id="@+id/infoBtn"
         android:layout_width="250dp"
         android:layout_height="120dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@color/dark_gray"
         android:fontFamily="@font/raleway_bold"
         android:text="@string/info"
         android:textAllCaps="false"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/galleryBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/sketchBtn"
+        app:layout_constraintVertical_bias="0.734" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -60,4 +51,54 @@
         app:layout_constraintVertical_bias="0.583"
         app:srcCompat="@drawable/banner"
         tools:ignore="ContentDescription,ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/askDimensionsTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/choose_width_height"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sketchBtn"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
+        android:id="@+id/heightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="96dp"
+        android:background="@color/white"
+        android:ems="4"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/infoBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
+        app:layout_constraintVertical_bias="0.242"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/widthTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:background="@color/white"
+        android:ems="4"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/infoBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
+        app:layout_constraintVertical_bias="0.242"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
