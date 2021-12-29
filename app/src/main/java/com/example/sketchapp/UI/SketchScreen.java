@@ -24,7 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
-import petrov.kristiyan.colorpicker.ColorPicker;
+import top.defaults.colorpicker.ColorPickerPopup;
 
 /**
  * This class handles the functionality and user
@@ -53,6 +53,8 @@ public class SketchScreen extends AppCompatActivity {
     private int widthValue;
     private int heightValue;
     private boolean isExtras;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,22 +171,21 @@ public class SketchScreen extends AppCompatActivity {
 
         bucketBtn.setOnClickListener(view -> {
             buttonSound.start();
-            final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
-            colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
-                @Override
-                public void setOnFastChooseColorListener(int position, int colour) {
-                    paint.changeBackground(colour);
-                    backgroundColour = colour;
+            new ColorPickerPopup.Builder(SketchScreen.this).initialColor(Color.RED)
+                .enableBrightness(true)
+                .enableAlpha(true)
+                .okTitle("OK")
+                .cancelTitle("Cancel")
+                .showIndicator(true)
+                .showValue(true)
+                .build()
+                .show(view, new ColorPickerPopup.ColorPickerObserver() {
+                    @Override
+                    public void onColorPicked(int colour) {
+                        paint.changeBackground(colour);
+                        backgroundColour = colour;
                 }
-                @Override
-                public void onCancel() {
-                    colorPicker.dismissDialog();
-                }
-            })
-            .setTitle("Choose a canvas colour")
-            .setColors(colorsHexList)
-            .setColumns(5)
-            .show();
+            });
         });
 
         saveBtn.setOnClickListener(view -> {
@@ -213,22 +214,21 @@ public class SketchScreen extends AppCompatActivity {
 
         colourBtn.setOnClickListener(view -> {
             buttonSound.start();
-            final ColorPicker colorPicker = new ColorPicker(SketchScreen.this);
-            colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
-                @Override
-                public void setOnFastChooseColorListener(int position, int colour) {
-                    paint.setColour(colour);
-                    currentColour = colour;
+            new ColorPickerPopup.Builder(SketchScreen.this).initialColor(Color.RED)
+                .enableBrightness(true)
+                .enableAlpha(true)
+                .okTitle("OK")
+                .cancelTitle("Cancel")
+                .showIndicator(true)
+                .showValue(true)
+                .build()
+                .show(view, new ColorPickerPopup.ColorPickerObserver() {
+                    @Override
+                    public void onColorPicked(int colour) {
+                        paint.setColour(colour);
+                        currentColour = colour;
                 }
-                @Override
-                public void onCancel() {
-                    colorPicker.dismissDialog();
-                }
-            })
-                .setTitle("Choose a colour to paint with")
-                .setColors(colorsHexList)
-                .setColumns(5)
-                .show();
+            });
         });
 
         strokeBtn.setOnClickListener(view -> {
