@@ -8,12 +8,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.WindowManager;
 import java.util.ArrayList;
 
 /**
@@ -40,16 +37,11 @@ public class DrawView extends View {
     private final Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     private int backgroundColour;
     private boolean isEraser = false;
-    private boolean isZoom = false;
 
+    private static final float MIN_ZOOM = 1f;
+    private static final float MAX_ZOOM = 5f;
     private float scaleFactor = 1f;
     private final ScaleGestureDetector detector;
-    private float startX = 0f;
-    private float startY = 0f;
-    private float translateX;
-    private float translateY;
-    private float previousTranslateX;
-    private float previousTranslateY;
 
     public DrawView(Context context) {
         this(context, null);
@@ -57,24 +49,6 @@ public class DrawView extends View {
 
     public DrawView(Context context, AttributeSet attributes) {
         super(context, attributes);
-
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-
-        float displayWidth = metrics.widthPixels;
-        float displayHeight = metrics.heightPixels;
-
-        translateX = displayWidth /4;
-        translateY = displayHeight /4;
-        previousTranslateX = displayWidth /4;
-        previousTranslateY = displayHeight /4;
-
-        detector = new ScaleGestureDetector(context, new ScaleListener());
-
-        setFocusable(true);
-        setFocusableInTouchMode(true);
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -85,19 +59,26 @@ public class DrawView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setAlpha(0xff);
         backgroundColour = Color.WHITE;
+
+        detector = new ScaleGestureDetector(getContext(), new ScaleListener());
     }
 
-    class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             scaleFactor *= detector.getScaleFactor();
-            float MAX_ZOOM = 5.0f;
-            float MIN_ZOOM = 0.1f;
             scaleFactor = Math.max(MIN_ZOOM, Math.min(scaleFactor, MAX_ZOOM));
-
             invalidate();
             return true;
         }
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldWidth, int oldHeight) {
+        super.onSizeChanged(w, h, oldWidth, oldHeight);
+
+        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
     }
 
     public void setUpCanvas(int height, int width) {
@@ -110,10 +91,9 @@ public class DrawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         canvas.save();
-        canvas.translate((translateX) / scaleFactor, (translateY) / scaleFactor);
-        canvas.scale(scaleFactor, scaleFactor, 0, 0);
+
+        canvas.scale(scaleFactor, scaleFactor);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
         mCanvas.drawColor(backgroundColour);
@@ -126,8 +106,8 @@ public class DrawView extends View {
             }
             mPaint.setStrokeWidth(currentPath.strokeWidth);
             mCanvas.drawPath(currentPath.path, mPaint);
+            invalidate();
         }
-
         canvas.restore();
     }
 
@@ -166,10 +146,6 @@ public class DrawView extends View {
         mY = y;
     }
 
-    private void touchUp() {
-        mPath.lineTo(mX, mY);
-    }
-
     private void touchMove(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
@@ -181,40 +157,28 @@ public class DrawView extends View {
         }
     }
 
+    private void touchUp() {
+        mPath.lineTo(mX, mY);
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         detector.onTouchEvent(event);
-
         float x = event.getX();
         float y = event.getY();
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isZoom) {
-                startX = x - previousTranslateX;
-                startY = y - previousTranslateY;
-            }
-            else {
-                touchStart(x, y);
-            }
+            touchStart(x, y);
+            invalidate();
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (isZoom) {
-                translateX = event.getX() - startX;
-                translateY = event.getY() - startY;
-            }
-            else {
-                touchMove(x, y);
-            }
+            touchMove(x, y);
+            invalidate();
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (isZoom) {
-                previousTranslateX = translateX;
-                previousTranslateY = translateY;
-            }
-            else {
-                touchUp();
-            }
+            touchUp();
+            invalidate();
         }
 
         invalidate();
@@ -259,13 +223,5 @@ public class DrawView extends View {
 
     public void setEraser(boolean eraser) {
         isEraser = eraser;
-    }
-
-    public void setZoom(boolean zoom) {
-        isZoom = zoom;
-    }
-
-    public boolean isZoom() {
-        return isZoom;
     }
 }

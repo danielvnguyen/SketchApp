@@ -1,6 +1,8 @@
 package com.example.sketchapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -55,8 +57,6 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
     private static final int DIALOG_ID = 0;
     private boolean isBackground;
 
-    private Button zoomBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +75,6 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
         redoBtn = findViewById(R.id.redoBtn);
-        zoomBtn = findViewById(R.id.zoom_btn);
 
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
@@ -99,18 +98,6 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
     }
 
     private void setUpButtons() {
-        zoomBtn.setOnClickListener(view -> {
-            buttonSound.start();
-            if (paint.isZoom()) {
-                zoomBtn.setText(R.string.zoom);
-                paint.setZoom(false);
-            }
-            else {
-                zoomBtn.setText(R.string.done);
-                paint.setZoom(true);
-            }
-        });
-
         redoBtn.setOnClickListener(view -> {
             buttonSound.start();
             paint.redo();
@@ -123,8 +110,16 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
 
         clearBtn.setOnClickListener(view -> {
             buttonSound.start();
-            Toast.makeText(getApplicationContext(),"Cleared the canvas", Toast.LENGTH_SHORT).show();
-            paint.clearCanvas();
+            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+            newDialog.setTitle("Clear Drawing");
+            newDialog.setMessage("Clear your canvas? This will erase all of your progress.");
+            newDialog.setPositiveButton("Yes", (dialog, which) -> {
+                Toast.makeText(getApplicationContext(),"Cleared the canvas!", Toast.LENGTH_SHORT).show();
+                paint.clearCanvas();
+                dialog.dismiss();
+            });
+            newDialog.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+            newDialog.show();
         });
 
         eraserBtn.setOnClickListener(view -> {
@@ -165,26 +160,33 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
 
         saveBtn.setOnClickListener(view -> {
             buttonSound.start();
-            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
-            Bitmap bmp = paint.save();
-            OutputStream imageOutStream;
-            ContentValues cv = new ContentValues();
+            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+            saveDialog.setTitle("Save Drawing");
+            saveDialog.setMessage("Save drawing to your device gallery?");
+            saveDialog.setPositiveButton("Yes", (dialog, which) -> {
+                Toast.makeText(getApplicationContext(),"Drawing saved to gallery!", Toast.LENGTH_SHORT).show();
+                Bitmap bmp = paint.save();
+                OutputStream imageOutStream;
+                ContentValues cv = new ContentValues();
 
-            cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
-            cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-            }
+                cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
+                cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+                }
 
-            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
-            try {
-                imageOutStream = getContentResolver().openOutputStream(uri);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
-                imageOutStream.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+                Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+                try {
+                    imageOutStream = getContentResolver().openOutputStream(uri);
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
+                    imageOutStream.close();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            saveDialog.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+            saveDialog.show();
         });
 
         bucketBtn.setOnClickListener(view -> {
@@ -255,9 +257,7 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
             }
         }
     }
-    @Override public void onDialogDismissed(int dialogId) {
-
-    }
+    @Override public void onDialogDismissed(int dialogId) {}
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, SketchScreen.class);
