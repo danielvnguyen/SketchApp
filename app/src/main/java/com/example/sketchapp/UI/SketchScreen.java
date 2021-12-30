@@ -23,7 +23,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
-import top.defaults.colorpicker.ColorPickerPopup;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 /**
  * This class handles the functionality and user
@@ -31,7 +32,7 @@ import top.defaults.colorpicker.ColorPickerPopup;
  * of the application. Primarily includes button
  * functionality (undo, save, etc.)
  */
-public class SketchScreen extends AppCompatActivity {
+public class SketchScreen extends AppCompatActivity implements ColorPickerDialogListener {
 
     private DrawView paint;
     private ImageButton saveBtn;
@@ -51,6 +52,10 @@ public class SketchScreen extends AppCompatActivity {
     private int widthValue;
     private int heightValue;
     private boolean isExtras;
+    private static final int DIALOG_ID = 0;
+    private boolean isBackground;
+
+    private Button zoomBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class SketchScreen extends AppCompatActivity {
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
         redoBtn = findViewById(R.id.redoBtn);
+        zoomBtn = findViewById(R.id.zoom_btn);
 
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
@@ -93,29 +99,42 @@ public class SketchScreen extends AppCompatActivity {
     }
 
     private void setUpButtons() {
-        redoBtn.setOnClickListener(view -> {
-            paint.redo();
+        zoomBtn.setOnClickListener(view -> {
             buttonSound.start();
+            if (paint.isZoom()) {
+                zoomBtn.setText(R.string.zoom);
+                paint.setZoom(false);
+            }
+            else {
+                zoomBtn.setText(R.string.done);
+                paint.setZoom(true);
+            }
+        });
+
+        redoBtn.setOnClickListener(view -> {
+            buttonSound.start();
+            paint.redo();
         });
 
         undoBtn.setOnClickListener(view -> {
-            paint.undo();
             buttonSound.start();
+            paint.undo();
         });
 
         clearBtn.setOnClickListener(view -> {
+            buttonSound.start();
             Toast.makeText(getApplicationContext(),"Cleared the canvas", Toast.LENGTH_SHORT).show();
             paint.clearCanvas();
-            buttonSound.start();
         });
 
         eraserBtn.setOnClickListener(view -> {
+            buttonSound.start();
             paint.setEraser(true);
             paint.setColour(backgroundColour);
-            buttonSound.start();
         });
 
         hideBtn.setOnClickListener(view -> {
+            buttonSound.start();
             if (!toolsHidden) {
                 hideBtn.setText(R.string.show);
                 toolsHidden = true;
@@ -144,29 +163,9 @@ public class SketchScreen extends AppCompatActivity {
             }
         });
 
-        bucketBtn.setOnClickListener(view -> {
-            buttonSound.start();
-            new ColorPickerPopup.Builder(SketchScreen.this).initialColor(Color.RED)
-                .enableBrightness(true)
-                .enableAlpha(true)
-                .okTitle("OK")
-                .cancelTitle("Cancel")
-                .showIndicator(true)
-                .showValue(true)
-                .build()
-                .show(view, new ColorPickerPopup.ColorPickerObserver() {
-                    @Override
-                    public void onColorPicked(int colour) {
-                        Toast.makeText(getApplicationContext(),"Canvas colour changed!", Toast.LENGTH_SHORT).show();
-                        paint.changeBackground(colour);
-                        backgroundColour = colour;
-                }
-            });
-        });
-
         saveBtn.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
             buttonSound.start();
+            Toast.makeText(getApplicationContext(),"Drawing saved to gallery", Toast.LENGTH_SHORT).show();
             Bitmap bmp = paint.save();
             OutputStream imageOutStream;
             ContentValues cv = new ContentValues();
@@ -188,29 +187,33 @@ public class SketchScreen extends AppCompatActivity {
             }
         });
 
-        colourBtn.setOnClickListener(view -> {
+        bucketBtn.setOnClickListener(view -> {
+            isBackground = true;
             buttonSound.start();
-            new ColorPickerPopup.Builder(SketchScreen.this).initialColor(Color.RED)
-                .enableBrightness(true)
-                .enableAlpha(true)
-                .okTitle("OK")
-                .cancelTitle("Cancel")
-                .showIndicator(true)
-                .showValue(true)
-                .build()
-                .show(view, new ColorPickerPopup.ColorPickerObserver() {
-                    @Override
-                    public void onColorPicked(int colour) {
-                        Toast.makeText(getApplicationContext(),"Drawing colour changed!", Toast.LENGTH_SHORT).show();
-                        paint.setColour(colour);
-                        currentColour = colour;
-                }
-            });
+            ColorPickerDialog.newBuilder()
+                    .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(true)
+                    .setDialogId(DIALOG_ID)
+                    .setColor(currentColour)
+                    .setShowColorShades(true)
+                    .show(this);
+        });
+
+        colourBtn.setOnClickListener(view -> {
+            isBackground = false;
+            buttonSound.start();
+            ColorPickerDialog.newBuilder()
+                    .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(true)
+                    .setDialogId(DIALOG_ID)
+                    .setColor(currentColour)
+                    .setShowColorShades(true)
+                    .show(this);
         });
 
         strokeBtn.setOnClickListener(view -> {
-            paint.setEraser(false);
             buttonSound.start();
+            paint.setEraser(false);
             paint.setColour(currentColour);
         });
 
@@ -230,10 +233,30 @@ public class SketchScreen extends AppCompatActivity {
                     paint.setUpCanvas(heightValue, widthValue);
                 }
                 else {
+                    heightValue = height;
+                    widthValue = width;
                     paint.setUpCanvas(height, width);
                 }
             }
         });
+    }
+
+    @Override public void onColorSelected(int dialogId, int colour) {
+        if (dialogId == DIALOG_ID) {
+            if (isBackground) {
+                Toast.makeText(getApplicationContext(),"Background colour changed!", Toast.LENGTH_SHORT).show();
+                backgroundColour = colour;
+                paint.changeBackground(colour);
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"Drawing colour changed!", Toast.LENGTH_SHORT).show();
+                currentColour = colour;
+                paint.setColour(colour);
+            }
+        }
+    }
+    @Override public void onDialogDismissed(int dialogId) {
+
     }
 
     public static Intent makeIntent(Context context) {

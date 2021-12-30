@@ -17,19 +17,23 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".UI.InfoScreen"
-            android:screenOrientation="locked"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="false" />
         <activity
             android:name=".UI.SketchScreen"
-            android:screenOrientation="locked"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="false" />
         <activity
             android:name=".UI.MainMenu"
-            android:screenOrientation="locked"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="false" />
         <activity
             android:name=".UI.WelcomeScreen"
-            android:screenOrientation="locked"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

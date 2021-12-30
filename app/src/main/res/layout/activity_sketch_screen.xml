@@ -125,4 +125,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
+    <Button
+        android:id="@+id/zoom_btn"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/zoom"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hide_btn"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
