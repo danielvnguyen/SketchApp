@@ -4,7 +4,8 @@ import android.graphics.Path;
 
 /**
  * This class handles the characteristics of the user's
- * paint brush strokes.
+ * paint brush strokes. Data includes stroke width,
+ * stroke colour, and if it is an eraser or not.
  */
 public class Stroke {
 

@@ -13,7 +13,7 @@
     <string name="bucket">Paint Bucket</string>
     <string name="clear">Clear Screen</string>
     <string name="about_app_info">SketchApp is a sketching and/or drawing Android application.
-        The tools that you can use and interact with are buttons such as undo,
+        The tools that you can use and interact with are buttons such as undo, redo, zoom/drag,
         save, change stroke colour, change stroke size, erase, change canvas colour, resizing canvas,
         and clear the canvas. The application saves the drawing into the Gallery,
         where you can delete, edit, or save the drawing to your phone. Have fun sketching!
@@ -34,7 +34,7 @@
     <string name="redo">Redo</string>
     <string name="hide">Hide</string>
     <string name="show">Show</string>
-    <string name="choose_width_height">Set Canvas Width/Height: \n<br/>(Or Leave Them Blank)</string>
+    <string name="choose_width_height">Set Canvas Width/Height: \n<br/>(Min: 50, Max: 4000, Or Leave Blank)</string>
     <string name="zoom">Zoom</string>
     <string name="done">Done</string>
 </resources>

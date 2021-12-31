@@ -34,7 +34,6 @@ public class MainMenu extends AppCompatActivity {
         setUpButtons();
     }
 
-    //Constraints: Not too big or small, not 1 empty. Need both empty or both filled.
     private boolean validateInput(TextView width, TextView height) {
         String widthString = width.getText().toString();
         String heightString = height.getText().toString();
