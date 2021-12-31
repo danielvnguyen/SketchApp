@@ -37,4 +37,6 @@
     <string name="choose_width_height">Set Canvas Width/Height: \n<br/>(Min: 50, Max: 4000, Or Leave Blank)</string>
     <string name="zoom">Zoom</string>
     <string name="done">Done</string>
+    <string name="width">width</string>
+    <string name="height">height</string>
 </resources>

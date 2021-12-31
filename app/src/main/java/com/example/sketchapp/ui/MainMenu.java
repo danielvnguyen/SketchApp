@@ -42,6 +42,12 @@ public class MainMenu extends AppCompatActivity {
             return true;
         }
 
+        if (widthString.matches(".*[a-z].*") || heightString.matches(".*[a-z].*")) {
+            Toast.makeText(getApplicationContext(),
+                    "You have letters in your value(s)!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         if (widthString.matches("") && !heightString.matches("")) {
             Toast.makeText(getApplicationContext(),
                     "You left the width blank!", Toast.LENGTH_SHORT).show();

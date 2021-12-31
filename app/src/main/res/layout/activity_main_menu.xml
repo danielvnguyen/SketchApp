@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/sketchBtn"
         android:layout_width="250dp"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         android:layout_marginTop="220dp"
         android:backgroundTint="@color/dark_gray"
         android:fontFamily="@font/raleway_bold"
@@ -25,8 +25,7 @@
     <Button
         android:id="@+id/infoBtn"
         android:layout_width="250dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="80dp"
         android:backgroundTint="@color/dark_gray"
         android:fontFamily="@font/raleway_bold"
         android:text="@string/info"
@@ -36,8 +35,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sketchBtn"
-        app:layout_constraintVertical_bias="0.556" />
+        app:layout_constraintTop_toBottomOf="@+id/heightTV"
+        app:layout_constraintVertical_bias="0.282" />
+
+    <EditText
+        android:id="@+id/heightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="92dp"
+        android:background="@color/white"
+        android:ems="4"
+        android:fontFamily="@font/raleway_bold"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:text="@string/height"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
+        app:layout_constraintVertical_bias="0.108"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/widthTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:background="@color/white"
+        android:ems="4"
+        android:fontFamily="@font/raleway_bold"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:text="@string/width"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
+        app:layout_constraintVertical_bias="0.108"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -56,7 +91,7 @@
         android:id="@+id/askDimensionsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/raleway_medium"
         android:text="@string/choose_width_height"
         android:textAlignment="center"
@@ -65,41 +100,9 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sketchBtn"
         tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/heightTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:background="@color/white"
-        android:ems="4"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/infoBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
-        app:layout_constraintVertical_bias="0.258"
-        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
-
-    <EditText
-        android:id="@+id/widthTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:background="@color/white"
-        android:ems="4"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/infoBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/askDimensionsTV"
-        app:layout_constraintVertical_bias="0.258"
-        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
