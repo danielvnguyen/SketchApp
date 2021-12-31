@@ -31,7 +31,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
  * This class handles the functionality and user
  * interactivity of the main sketching screen
  * of the application. Primarily includes button
- * functionality (undo, save, etc.)
+ * functionality (zoom, undo, save, etc.)
  */
 public class SketchScreen extends AppCompatActivity implements ColorPickerDialogListener {
 
