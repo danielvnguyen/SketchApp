@@ -1,4 +1,4 @@
-package com.example.sketchapp.Model;
+package com.example.sketchapp.model;
 
 import android.graphics.Path;
 

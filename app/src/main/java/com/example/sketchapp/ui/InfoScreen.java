@@ -1,4 +1,4 @@
-package com.example.sketchapp.UI;
+package com.example.sketchapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

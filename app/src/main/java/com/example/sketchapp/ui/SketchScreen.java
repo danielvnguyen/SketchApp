@@ -1,7 +1,6 @@
-package com.example.sketchapp.UI;
+package com.example.sketchapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import com.example.sketchapp.Model.DrawView;
+import com.example.sketchapp.model.DrawView;
 import com.example.sketchapp.R;
 import com.google.android.material.slider.RangeSlider;
 import java.io.OutputStream;
@@ -50,12 +49,14 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
     private int currentColour;
     private MediaPlayer buttonSound;
     private Button hideBtn;
+    private Button zoomBtn;
     private boolean toolsHidden = false;
     private int widthValue;
     private int heightValue;
     private boolean isExtras;
     private static final int DIALOG_ID = 0;
     private boolean isBackground;
+    public static boolean isZoom = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
         bucketBtn = findViewById(R.id.bucketBtn);
         clearBtn = findViewById(R.id.clearBtn);
         redoBtn = findViewById(R.id.redoBtn);
+        zoomBtn = findViewById(R.id.zoom_btn);
 
         backgroundColour = Color.WHITE;
         currentColour = Color.BLACK;
@@ -98,6 +100,18 @@ public class SketchScreen extends AppCompatActivity implements ColorPickerDialog
     }
 
     private void setUpButtons() {
+        zoomBtn.setOnClickListener(view -> {
+            buttonSound.start();
+            if (isZoom) {
+                isZoom = false;
+                zoomBtn.setText(R.string.zoom);
+            }
+            else {
+                isZoom = true;
+                zoomBtn.setText(R.string.done);
+            }
+        });
+
         redoBtn.setOnClickListener(view -> {
             buttonSound.start();
             paint.redo();

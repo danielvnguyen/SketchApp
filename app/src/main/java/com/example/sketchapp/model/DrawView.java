@@ -1,4 +1,4 @@
-package com.example.sketchapp.Model;
+package com.example.sketchapp.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import java.util.ArrayList;
 
@@ -38,10 +37,7 @@ public class DrawView extends View {
     private int backgroundColour;
     private boolean isEraser = false;
 
-    private static final float MIN_ZOOM = 1f;
-    private static final float MAX_ZOOM = 5f;
-    private float scaleFactor = 1f;
-    private final ScaleGestureDetector detector;
+    //----------------------------------------------------------------------------------------------
 
     public DrawView(Context context) {
         this(context, null);
@@ -59,18 +55,6 @@ public class DrawView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setAlpha(0xff);
         backgroundColour = Color.WHITE;
-
-        detector = new ScaleGestureDetector(getContext(), new ScaleListener());
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            scaleFactor *= detector.getScaleFactor();
-            scaleFactor = Math.max(MIN_ZOOM, Math.min(scaleFactor, MAX_ZOOM));
-            invalidate();
-            return true;
-        }
     }
 
     @Override
@@ -91,9 +75,8 @@ public class DrawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.save();
 
-        canvas.scale(scaleFactor, scaleFactor);
+        canvas.save();
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
         mCanvas.drawColor(backgroundColour);
@@ -108,6 +91,7 @@ public class DrawView extends View {
             mCanvas.drawPath(currentPath.path, mPaint);
             invalidate();
         }
+
         canvas.restore();
     }
 
@@ -164,21 +148,17 @@ public class DrawView extends View {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        detector.onTouchEvent(event);
         float x = event.getX();
         float y = event.getY();
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             touchStart(x, y);
-            invalidate();
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             touchMove(x, y);
-            invalidate();
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) {
             touchUp();
-            invalidate();
         }
 
         invalidate();

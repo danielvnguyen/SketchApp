@@ -6,10 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".UI.SketchScreen">
+    tools:context=".ui.SketchScreen">
 
-
-    <com.example.sketchapp.Model.DrawView
+    <com.example.sketchapp.model.DrawView
         android:id="@+id/draw_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -123,6 +122,18 @@
         android:textAllCaps="false"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/zoom_btn"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/raleway_medium"
+        android:text="@string/zoom"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 

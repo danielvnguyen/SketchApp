@@ -35,4 +35,6 @@
     <string name="hide">Hide</string>
     <string name="show">Show</string>
     <string name="choose_width_height">Set Canvas Width/Height: \n<br/>(Or Leave Them Blank)</string>
+    <string name="zoom">Zoom</string>
+    <string name="done">Done</string>
 </resources>
