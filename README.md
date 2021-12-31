@@ -1,4 +1,6 @@
 # SketchApp
+[![SketchApp Demo Video](https://img.youtube.com/vi/tBbvTkH7fKQ/0.jpg)](https://www.youtube.com/watch?v=tBbvTkH7fKQ)
+<br/>
 A sketching/drawing application created in Android Studio using Java. Designed for Pixel phones and larger.
 # Features Implemented
 - change brush and canvas colour
